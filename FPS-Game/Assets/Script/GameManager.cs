@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,12 +11,17 @@ public class GameManager : MonoBehaviour
     public bool hitTarget = false;
     public GameObject target;
     public GameObject titleScreen;
+    public GameObject scoreSystem;
+    public GameObject gameOvercreen;
+    public Button restartButton;
+    public TextMeshProUGUI timer;
     public TextMeshProUGUI topScoreText;
     public TextMeshProUGUI currentScoreText;
     
     private bool isGameOver = false;
     private float targetDeleteTime;
     private int topScore;
+    private float gameTimer = 60f;
     private int score = -1;
     private Coroutine spawnCoroutine;
     private Vector3 minSpawnPosition = new Vector3(-90, -58, 140);
@@ -24,14 +31,28 @@ public class GameManager : MonoBehaviour
     {
         TimeManager(false);
         titleScreen.gameObject.SetActive(true);
-        UpdateScore();
+        scoreSystem.gameObject.SetActive(false);
+        gameOvercreen.gameObject.SetActive(false);
         spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
     }
 
     private void Update()
     {
-       hitTargets();
+        hitTargets();
+        if (!isGameOver && gameTimer > 0f)
+        {
+            // Decrease the timer by Time.deltaTime
+            gameTimer -= Time.deltaTime;
+            // Update the timer text
+            timer.text = "TIMER: " + Mathf.Round(gameTimer).ToString();
+        }
+        // Check if the timer has reached 0
+        if (gameTimer <= 0f)
+        {
+            GameOver();
+        }
         Debug.Log("Difficulty " + targetDeleteTime);
+       
     }
 
     private IEnumerator SpawnAndDeleteTarget()
@@ -85,9 +106,22 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         TimeManager(true);
         targetDeleteTime = difficulty;
-        score = 0;
+        score = -1;
         UpdateScore();
         titleScreen.gameObject.SetActive(false);
+        scoreSystem.gameObject.SetActive(true);
+    }
+
+    public void GameOver()
+    {
+        isGameOver = true;
+        restartButton.gameObject.SetActive(true);
+        gameOvercreen.gameObject.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /*
