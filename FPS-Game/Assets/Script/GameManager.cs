@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI numOfHitText;
     public TextMeshProUGUI numOfBulletText;
     public TextMeshProUGUI accuracyText;
+    public TextMeshProUGUI targetEngagementText;
     public int numOfBullet;
 
     private bool isGameOver = false;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     private int numOfTarget;
     private int numOfHit;
     private float accuracy;
+    private float targetEngagement;
     private Coroutine spawnCoroutine;
     private Vector3 minSpawnPosition = new Vector3(-90, -58, 140);
     private Vector3 maxSpawnPosition = new Vector3(89, 122, 351);
@@ -46,7 +48,6 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(true);
         scoreSystem.gameObject.SetActive(false);
         gameOvercreen.gameObject.SetActive(false);
-        spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
     }
 
     private void Update()
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int difficulty)
     {
+        spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
         isGameOver = false;
         TimeManager(true);
         targetDeleteTime = difficulty;
@@ -171,9 +173,13 @@ public class GameManager : MonoBehaviour
     private void AnalyzeData()
     {
         accuracy = ((float)numOfHit / (float)numOfBullet) * 100f;
-        numOfTargetText.text = "NUMBER OF TARGETS: " + numOfTarget;
-        numOfHitText.text = "NUMBER OF HITS: " + numOfHit;
-        numOfBulletText.text = "NUMBER OF BULLETS: " + numOfBullet;
-        accuracyText.text = "ACCURACY: " + accuracy.ToString("F2") + "%";
+        targetEngagement = ((float)numOfHit / (float)numOfTarget) * 100f;
+
+        numOfTargetText.text = "Number of target  generated: " + numOfTarget;
+        numOfHitText.text = "Number of target  hit: " + numOfHit;
+        numOfBulletText.text = "Number of bullet  use: " + numOfBullet;
+        accuracyText.text = "Hit accuracy: " + accuracy.ToString("F2") + "%";
+        targetEngagementText.text = "Target Engagement Efficiency: " + targetEngagement.ToString("F2") + "%";
+
     }
 }
