@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
     private float targetDeleteTime;
     private int topScore = 0;
-    private float gameTimer = 60f;
+    private float gameTimer = 10f;
     private int score;
     private Coroutine spawnCoroutine;
     private Vector3 minSpawnPosition = new Vector3(-90, -58, 140);
@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
         scoreSystem.gameObject.SetActive(false);
         gameOvercreen.gameObject.SetActive(false);
         spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
-        topScoreText.text = "TOP SCORE: " + topScore;
     }
 
     private void Update()
@@ -120,12 +119,13 @@ public class GameManager : MonoBehaviour
         gameOvercreen.gameObject.SetActive(true);
         timer.gameObject.SetActive(false);
         scoreSystem.gameObject.SetActive(false);
-        TimeManager(false);
         StopCoroutine(spawnCoroutine);
         if (score > topScore)
         {
             topScore = score;
+            topScoreText.text = "TOP SCORE: " + topScore;
         }
+        TimeManager(false);
     }
 
     private void UpdateScore()
