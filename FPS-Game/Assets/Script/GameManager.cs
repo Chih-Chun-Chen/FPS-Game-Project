@@ -17,18 +17,30 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timer;
     public TextMeshProUGUI topScoreText;
     public TextMeshProUGUI currentScoreText;
+    public TextMeshProUGUI numOfTargetText;
+    public TextMeshProUGUI numOfHitText;
+    public TextMeshProUGUI numOfBulletText;
+    public TextMeshProUGUI accuracyText;
+    public int numOfBullet;
 
     private bool isGameOver = false;
     private float targetDeleteTime;
     private static int topScore;
-    private float gameTimer = 10f;
+    private float gameTimer;
     private int score;
+    private int numOfTarget;
+    private int numOfHit;
+    private float accuracy;
     private Coroutine spawnCoroutine;
     private Vector3 minSpawnPosition = new Vector3(-90, -58, 140);
     private Vector3 maxSpawnPosition = new Vector3(89, 122, 351);
 
     private void Start()
     {
+        gameTimer = 10f;
+        numOfTarget = 0;
+        numOfHit = 0;
+        numOfBullet = 0;
         TimeManager(false);
         topScoreText.text = "TOP SCORE: " + topScore;
         titleScreen.gameObject.SetActive(true);
@@ -66,6 +78,7 @@ public class GameManager : MonoBehaviour
             );
 
             GameObject newTarget = Instantiate(target, spawnPosition, Quaternion.identity);
+            numOfTarget++;
             yield return new WaitForSeconds(targetDeleteTime);
             Destroy(newTarget);
         }
@@ -82,6 +95,7 @@ public class GameManager : MonoBehaviour
             );
 
             GameObject newTarget = Instantiate(target, spawnPosition, Quaternion.identity);
+            numOfTarget++;
             yield return new WaitForSeconds(targetDeleteTime);
             Destroy(newTarget);
         }
@@ -91,6 +105,7 @@ public class GameManager : MonoBehaviour
     {
         if (hitTarget)
         {
+            numOfHit++;
             if (spawnCoroutine != null)
             {
                 StopCoroutine(spawnCoroutine);
@@ -124,6 +139,7 @@ public class GameManager : MonoBehaviour
         {
             topScore = score;
         }
+        AnalyzeData();
         TimeManager(false);
     }
 
@@ -150,5 +166,14 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
         }
+    }
+
+    private void AnalyzeData()
+    {
+        accuracy = ((float)numOfHit / (float)numOfBullet) * 100f;
+        numOfTargetText.text = "NUMBER OF TARGETS: " + numOfTarget;
+        numOfHitText.text = "NUMBER OF HITS: " + numOfHit;
+        numOfBulletText.text = "NUMBER OF BULLETS: " + numOfBullet;
+        accuracyText.text = "ACCURACY: " + accuracy.ToString("F2") + "%";
     }
 }

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject crossHair;
 
+    private GameManager gameManager;
     private CharacterController characterController;
     private float speed = 50f;
     private GameObject mainCamera;
@@ -17,7 +18,6 @@ public class PlayerController : MonoBehaviour
     private float maxY = 60.0f;
     private float minY = -60.0f;
     private float smoothTime = 0.1f; // Adjust the smooth time to control the camera rotation speed
-
     private Vector2 rotation = Vector2.zero;
     private Vector2 currentRotation = Vector2.zero;
     private Vector2 targetRotation = Vector2.zero;
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         characterController = GetComponent<CharacterController>();
         mainCamera = GameObject.Find("Main Camera");
         scopeUp = -1;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
             //Instantiate bulletPrefab
             Vector3 bulletPos = mainCamera.transform.position + mainCamera.transform.forward * 10f;
             GameObject bullet = Instantiate(bulletPrefab, bulletPos, mainCamera.transform.rotation);
+            gameManager.numOfBullet++;
             // Add Rigidbody component to the bullet
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 800f, ForceMode.Impulse);
