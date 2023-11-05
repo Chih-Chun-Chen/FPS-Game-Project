@@ -17,12 +17,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timer;
     public TextMeshProUGUI topScoreText;
     public TextMeshProUGUI currentScoreText;
-    
+
     private bool isGameOver = false;
     private float targetDeleteTime;
-    private int topScore;
+    private int topScore = 0;
     private float gameTimer = 60f;
-    private int score = -1;
+    private int score;
     private Coroutine spawnCoroutine;
     private Vector3 minSpawnPosition = new Vector3(-90, -58, 140);
     private Vector3 maxSpawnPosition = new Vector3(89, 122, 351);
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         scoreSystem.gameObject.SetActive(false);
         gameOvercreen.gameObject.SetActive(false);
         spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
+        topScoreText.text = "TOP SCORE: " + topScore;
     }
 
     private void Update()
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
         Debug.Log("Difficulty " + targetDeleteTime);
-       
+
     }
 
     private IEnumerator SpawnAndDeleteTarget()
@@ -87,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void hitTargets() 
+    private void hitTargets()
     {
         if (hitTarget)
         {
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartGame(int difficulty)
-    {   
+    {
         isGameOver = false;
         TimeManager(true);
         targetDeleteTime = difficulty;
@@ -117,21 +118,15 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         restartButton.gameObject.SetActive(true);
         gameOvercreen.gameObject.SetActive(true);
+        timer.gameObject.SetActive(false);
+        scoreSystem.gameObject.SetActive(false);
+        TimeManager(false);
+        StopCoroutine(spawnCoroutine);
+        if (score > topScore)
+        {
+            topScore = score;
+        }
     }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    /*
-    public void GameOver()
-    {
-        gameOverText.gameObject.SetActive(true);
-        isGameOver = true;
-        restartButton.gameObject.SetActive(true);
-    }
-    */
 
     private void UpdateScore()
     {

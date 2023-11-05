@@ -341,6 +341,7 @@
 "Assets/Script/DifficultyButton.cs"
 "Assets/Script/GameManager.cs"
 "Assets/Script/PlayerController.cs"
+"Assets/Script/RestartGame.cs"
 -langversion:9.0
 
 /deterministic
