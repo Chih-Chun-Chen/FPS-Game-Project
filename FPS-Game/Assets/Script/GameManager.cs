@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
         gameTimer = 60f;
         numOfTarget = 0;
         numOfHit = 0;
@@ -120,6 +119,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int difficulty)
     {
+        Cursor.visible = false;
         spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
         isGameOver = false;
         TimeManager(true);
