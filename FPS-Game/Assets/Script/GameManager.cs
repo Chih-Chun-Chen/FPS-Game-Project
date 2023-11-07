@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameTimer = 10f;
+        gameTimer = 60f;
         numOfTarget = 0;
         numOfHit = 0;
         numOfBullet = 0;
