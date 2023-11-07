@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = false;
         gameTimer = 60f;
         numOfTarget = 0;
         numOfHit = 0;
@@ -131,6 +132,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Cursor.visible = true;
         isGameOver = true;
         restartButton.gameObject.SetActive(true);
         gameOvercreen.gameObject.SetActive(true);
