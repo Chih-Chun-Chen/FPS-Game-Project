@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(true);
         scoreSystem.gameObject.SetActive(false);
         gameOvercreen.gameObject.SetActive(false);
+        StartGame();
     }
 
     private void Update()
@@ -117,17 +118,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame(int difficulty)
+    public void StartGame()
     {
         Cursor.visible = false;
         spawnCoroutine = StartCoroutine(SpawnAndDeleteTarget());
         isGameOver = false;
         TimeManager(true);
-        targetDeleteTime = difficulty;
+
+        switch (MainManager.userLevel)
+        {
+            case 0:
+                targetDeleteTime = 3;
+                break;
+            case 1:
+                targetDeleteTime = 2;
+                break;
+            case 2:
+                targetDeleteTime = 1;
+                break;
+            default:
+                // Handle other cases if necessary
+                break;
+        }
+
         score = -1;
         UpdateScore();
         titleScreen.gameObject.SetActive(false);
         scoreSystem.gameObject.SetActive(true);
+        Debug.Log("Difficulty: " + targetDeleteTime);
     }
 
     public void GameOver()

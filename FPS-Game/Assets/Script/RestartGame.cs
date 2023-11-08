@@ -22,6 +22,6 @@ public class RestartGame : MonoBehaviour
 
     void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(0);
     }
 }

@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private float speed = 50f;
     private GameObject mainCamera;
     private int scopeUp;
-    private float sensitivity = 4.0f;
+    private int sensitivity;
     private float maxY = 60.0f;
     private float minY = -60.0f;
     private float smoothTime = 0.1f; // Adjust the smooth time to control the camera rotation speed
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sensitivity = MainManager.userDPI;
         gameManager = GameObject.FindObjectOfType<GameManager>();
         characterController = GetComponent<CharacterController>();
         mainCamera = GameObject.Find("Main Camera");

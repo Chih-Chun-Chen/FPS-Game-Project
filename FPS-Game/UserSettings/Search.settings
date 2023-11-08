@@ -14,6 +14,9 @@ scopes = {
 	"last_search.DA949528" = "UI"
 	"OpenInspectorPreview.DA949528" = "0"
 	"currentGroup.DA949528" = "all"
+	"last_search.60D47293" = ""
+	"OpenInspectorPreview.60D47293" = "0"
+	"currentGroup.60D47293" = "find"
 }
 providers = {
 	adb = {
