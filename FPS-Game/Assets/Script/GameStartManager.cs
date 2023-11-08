@@ -14,6 +14,7 @@ public class GameStartManager : MonoBehaviour
     public Button exitBtn;
     public TextMeshProUGUI userLevelText;
     public TextMeshProUGUI userDPIText;
+    public TMP_Dropdown timeDropdown;
     public Slider dpiSlider;
     public TMP_Dropdown levelDropdown;
 
@@ -28,6 +29,21 @@ public class GameStartManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch (timeDropdown.value)
+        {
+            case 0:
+                MainManager.Instance.userTime = 30;
+                break;
+            case 1:
+                MainManager.Instance.userTime = 60;
+                break;
+            case 2:
+                MainManager.Instance.userTime = 90;
+                break;
+            default:
+                // Handle other cases if necessary
+                break;
+        }
         MainManager.Instance.userDPI = (int)dpiSlider.value;
         MainManager.Instance.userLevel = levelDropdown.value;
         userDPIText.text = "USER DPI: " + MainManager.Instance.userDPI;

@@ -6,6 +6,8 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
+    public int topScore;
+    public int userTime;
     public int userDPI;
     public int userLevel;
     public int numOfBullet;

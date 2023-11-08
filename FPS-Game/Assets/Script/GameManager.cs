@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
     private float targetDeleteTime;
-    private static int topScore;
     private float gameTimer;
     private int score;
     private int numOfTarget;
@@ -31,9 +30,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameTimer = 60f;
+        gameTimer = MainManager.Instance.userTime;
         TimeManager(false);
-        topScoreText.text = "TOP SCORE: " + topScore;
+        topScoreText.text = "TOP SCORE: " + MainManager.Instance.topScore;
         titleScreen.gameObject.SetActive(true);
         scoreSystem.gameObject.SetActive(false);
         StartGame();
@@ -142,9 +141,9 @@ public class GameManager : MonoBehaviour
         timer.gameObject.SetActive(false);
         scoreSystem.gameObject.SetActive(false);
         StopCoroutine(spawnCoroutine);
-        if (score > topScore)
+        if (score > MainManager.Instance.topScore)
         {
-            topScore = score;
+            MainManager.Instance.topScore = score;
         }
         TimeManager(false);
         SceneManager.LoadScene(2);
