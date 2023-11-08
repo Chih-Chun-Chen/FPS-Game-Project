@@ -12,17 +12,9 @@ public class GameManager : MonoBehaviour
     public GameObject target;
     public GameObject titleScreen;
     public GameObject scoreSystem;
-    public GameObject gameOvercreen;
-    public Button restartButton;
     public TextMeshProUGUI timer;
     public TextMeshProUGUI topScoreText;
     public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI numOfTargetText;
-    public TextMeshProUGUI numOfHitText;
-    public TextMeshProUGUI numOfBulletText;
-    public TextMeshProUGUI accuracyText;
-    public TextMeshProUGUI targetEngagementText;
-    public int numOfBullet;
 
     private bool isGameOver = false;
     private float targetDeleteTime;
@@ -40,14 +32,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameTimer = 60f;
-        numOfTarget = 0;
-        numOfHit = 0;
-        numOfBullet = 0;
         TimeManager(false);
         topScoreText.text = "TOP SCORE: " + topScore;
         titleScreen.gameObject.SetActive(true);
         scoreSystem.gameObject.SetActive(false);
-        gameOvercreen.gameObject.SetActive(false);
         StartGame();
     }
 
@@ -80,7 +68,7 @@ public class GameManager : MonoBehaviour
             );
 
             GameObject newTarget = Instantiate(target, spawnPosition, Quaternion.identity);
-            numOfTarget++;
+            MainManager.Instance.numOfTarget++;
             yield return new WaitForSeconds(targetDeleteTime);
             Destroy(newTarget);
         }
@@ -97,7 +85,7 @@ public class GameManager : MonoBehaviour
             );
 
             GameObject newTarget = Instantiate(target, spawnPosition, Quaternion.identity);
-            numOfTarget++;
+            MainManager.Instance.numOfTarget++;
             yield return new WaitForSeconds(targetDeleteTime);
             Destroy(newTarget);
         }
@@ -107,7 +95,7 @@ public class GameManager : MonoBehaviour
     {
         if (hitTarget)
         {
-            numOfHit++;
+            MainManager.Instance.numOfHit++;
             if (spawnCoroutine != null)
             {
                 StopCoroutine(spawnCoroutine);
@@ -125,7 +113,7 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         TimeManager(true);
 
-        switch (MainManager.userLevel)
+        switch (MainManager.Instance.userLevel)
         {
             case 0:
                 targetDeleteTime = 3;
@@ -145,15 +133,12 @@ public class GameManager : MonoBehaviour
         UpdateScore();
         titleScreen.gameObject.SetActive(false);
         scoreSystem.gameObject.SetActive(true);
-        Debug.Log("Difficulty: " + targetDeleteTime);
     }
 
     public void GameOver()
     {
         Cursor.visible = true;
         isGameOver = true;
-        restartButton.gameObject.SetActive(true);
-        gameOvercreen.gameObject.SetActive(true);
         timer.gameObject.SetActive(false);
         scoreSystem.gameObject.SetActive(false);
         StopCoroutine(spawnCoroutine);
@@ -161,8 +146,8 @@ public class GameManager : MonoBehaviour
         {
             topScore = score;
         }
-        AnalyzeData();
         TimeManager(false);
+        SceneManager.LoadScene(2);
     }
 
     private void UpdateScore()
@@ -188,18 +173,5 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
         }
-    }
-
-    private void AnalyzeData()
-    {
-        accuracy = ((float)numOfHit / (float)numOfBullet) * 100f;
-        targetEngagement = ((float)numOfHit / (float)numOfTarget) * 100f;
-
-        numOfTargetText.text = "Number of target  generated: " + numOfTarget;
-        numOfHitText.text = "Number of target  hit: " + numOfHit;
-        numOfBulletText.text = "Number of bullet  use: " + numOfBullet;
-        accuracyText.text = "Hit accuracy: " + accuracy.ToString("F2") + "%";
-        targetEngagementText.text = "Target Engagement Efficiency: " + targetEngagement.ToString("F2") + "%";
-
     }
 }

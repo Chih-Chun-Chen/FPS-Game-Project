@@ -340,6 +340,8 @@
 "Assets/Script/BulletController.cs"
 "Assets/Script/ExitGame.cs"
 "Assets/Script/GameManager.cs"
+"Assets/Script/GameOverManager.cs"
+"Assets/Script/GameStartManager.cs"
 "Assets/Script/MainManager.cs"
 "Assets/Script/PlayerController.cs"
 "Assets/Script/RestartGame.cs"

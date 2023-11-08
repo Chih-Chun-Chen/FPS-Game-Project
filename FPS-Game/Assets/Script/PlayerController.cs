@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sensitivity = MainManager.userDPI;
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        sensitivity = MainManager.Instance.userDPI;
         characterController = GetComponent<CharacterController>();
         mainCamera = GameObject.Find("Main Camera");
         scopeUp = -1;
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
             //Instantiate bulletPrefab
             Vector3 bulletPos = mainCamera.transform.position + mainCamera.transform.forward * 10f;
             GameObject bullet = Instantiate(bulletPrefab, bulletPos, mainCamera.transform.rotation);
-            gameManager.numOfBullet++;
+            MainManager.Instance.numOfBullet++;
             // Add Rigidbody component to the bullet
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 800f, ForceMode.Impulse);
