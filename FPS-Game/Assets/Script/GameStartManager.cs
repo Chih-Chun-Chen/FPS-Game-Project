@@ -21,6 +21,10 @@ public class GameStartManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timeDropdown.value = MainManager.Instance.userTime;
+        dpiSlider.value = MainManager.Instance.userDPI;
+        levelDropdown.value = MainManager.Instance.userLevel;
+
         startBtn.onClick.AddListener(StartGame);
         settingtBtn.onClick.AddListener(Setting);
         exitBtn.onClick.AddListener(Exit);
